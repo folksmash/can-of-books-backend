@@ -4,10 +4,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const handleGetBooks = require('./books')
+const handleGetBooks = require('./books');
+const handlePostBooks = require('./books');
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -20,5 +22,6 @@ db.once('open', function(){
 const PORT = process.env.PORT || 3001;
 
 app.get('/book', handleGetBooks); 
+app.post('/book', handlePostBooks);
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));

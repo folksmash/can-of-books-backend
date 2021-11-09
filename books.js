@@ -25,5 +25,16 @@ async function handleGetBooks(req, res) {
     }
 };
 
-module.exports = handleGetBooks;
+async function handlePostBooks(req, res){
+    try {
+        let newBook = await Book.create(req.body)
+        res.status(201).send(newBook);
+        console.log(req.body);
+    } catch (e){
+        res.status(500).send('we were unable to add your book');
+    }
+}
+
+module.exports = handleGetBooks 
+module.exports = handlePostBooks;
 
