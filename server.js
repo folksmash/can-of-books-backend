@@ -23,6 +23,7 @@ const PORT = process.env.PORT || 3001;
 app.get('/book', handleGetBooks); 
 app.post('/book', handlePostBooks);
 app.delete('/book/:id', handleDeleteBooks);
+app.put('/book/:id', handlePutBook);
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
 
 
@@ -77,5 +78,17 @@ try {
 }
 catch (e){
   res.status(500).send('server error')
+}
+};
+
+async function handlePutBook(req, res) {
+  const id = req.params.id;
+  const updatedData = { ...req.body }
+try {
+  const updatedBook = await Book.findByIdAndUpdate(id, updatedData, { new:true, overwrite: true});
+  res.status(200).send(updatedBook)
+} catch (e) {
+  console.log(e);
+  res.status(500).send('server error');
 }
 };
